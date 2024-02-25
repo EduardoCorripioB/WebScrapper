@@ -42,7 +42,7 @@ database = databaseconnection.cursor()
 
 #SQL push data to database
 i = 0
-while i<len(coinnamelist):
+while i<1:
     database.execute(f'''INSERT INTO dbo.Crypto(Coin,Price,Date) 
     VALUES 
     ('{coinnamelist[i]}','{coinpricelist[i][1:]}','{todaydate}')''')
