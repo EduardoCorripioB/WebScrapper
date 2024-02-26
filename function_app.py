@@ -21,7 +21,7 @@ import azure.functions as func
 
 app = func.FunctionApp()
 
-@app.schedule(schedule="0 * * * * *", arg_name="myTimer", run_on_startup=True,
+@app.schedule(schedule="0 */10 * * * *", arg_name="myTimer", run_on_startup=True,
               use_monitor=False) 
 def timer_trigger(myTimer: func.TimerRequest) -> None:
     
@@ -55,7 +55,7 @@ def timer_trigger(myTimer: func.TimerRequest) -> None:
     
     #SQL push data to database
     i = 0
-    while i<1:
+    while i<len(coinnamelist):
         database.execute(f'''INSERT INTO dbo.Crypto(Coin,Price,Date) 
         VALUES 
         ('{coinnamelist[i]}','{coinpricelist[i][1:]}','{todaydate}')''')
