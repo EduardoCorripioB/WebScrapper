@@ -24,7 +24,7 @@ app = func.FunctionApp()
 @app.schedule(schedule="0 0 */3 * * *", arg_name="myTimer", run_on_startup=True,
               use_monitor=False) 
 def timer_trigger(myTimer: func.TimerRequest) -> None:
-    
+    ###########################################################################################################################
     #Getpagedata
     paginabase = 'https://www.coindesk.com/data/'
     requestwebpage = requests.get(paginabase)
@@ -33,6 +33,7 @@ def timer_trigger(myTimer: func.TimerRequest) -> None:
     #Constant directions
     coinandabradd = '.inner-column'
     coinpriceadd = '.typography__StyledTypography-sc-owin6q-0.lnOdBs'
+    coindayperc = '.percentage'
     
     #Getdata
     #Coinnames
@@ -41,10 +42,13 @@ def timer_trigger(myTimer: func.TimerRequest) -> None:
     #Coinprices
     coinpricebs = bswebpage.select(coinpriceadd)
     coinpricelist = createlist(coinpricebs)
+    #Coinpercentage
+    coinpercbs = bswebpage.select(coindayperc)
+    coinperclist = createlist(coinpercbs)
     
     todaydate = datetime.today().strftime('%Y-%m-%dT%H:%M:%S')
     
-    #########################################
+    ##################################################################################
     #SQL Database conection
     databaseconnection = pyodbc.connect('''Driver={ODBC Driver 18 for SQL Server};
     Server=tcp:cryptodataproject.database.windows.net,1433;
@@ -56,14 +60,14 @@ def timer_trigger(myTimer: func.TimerRequest) -> None:
     #SQL push data to database
     i = 0
     while i<len(coinnamelist):
-        database.execute(f'''INSERT INTO dbo.Crypto(Coin,Price,Date) 
+        database.execute(f'''INSERT INTO dbo.Crypto(Coin,Price,Date, Percentage) 
         VALUES 
-        ('{coinnamelist[i]}','{coinpricelist[i][1:]}','{todaydate}')''')
+        ('{coinnamelist[i]}','{coinpricelist[i][1:]}','{todaydate}','{coinperclist[i]}')''')
     
         i += 1
     
     database.commit()
-    
+    ###########################################################################################################################
     logging.info('Python timer trigger function executed.')
 
 
