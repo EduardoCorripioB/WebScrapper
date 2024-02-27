@@ -52,7 +52,7 @@ def timer_trigger(myTimer: func.TimerRequest) -> None:
     #SQL Database conection
     databaseconnection = pyodbc.connect('''Driver={ODBC Driver 18 for SQL Server};
     Server=tcp:cryptodataproject.database.windows.net,1433;
-    Database=cryptodata;Uid=crypto;Pwd=Contrasena1!;
+    Database=cryptodata;Uid=account1;Pwd=Contrasena1;
     Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30''')
     
     database = databaseconnection.cursor()
