@@ -16,11 +16,11 @@ def createlist(bsvar):
 def testSQL():
     databaseconnection = pyodbc.connect('''Driver={ODBC Driver 18 for SQL Server};
         Server=tcp:cryptodataproject.database.windows.net,1433;
-        Database=cryptodata;Uid=account1;Pwd=Contrasena;
+        Database=cryptodata;Uid=account1;Pwd=Contrasena1;
         Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30''')
     return databaseconnection
 
-timer = 10
+timer = 5
 
 ##############################################################################################################
 #Time Trigger
@@ -67,6 +67,7 @@ def timer_trigger(myTimer: func.TimerRequest) -> None:
             time.sleep(timer)
         else:
             j = 2
+            print('Proceso Exitoso')
             databaseconnection = testSQL()
             database = databaseconnection.cursor()
             i = 0
